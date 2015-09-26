@@ -1,6 +1,19 @@
 <div ng-init='init();' class='container'>
-  <div class='center-container landing'>
-    <p>Responsive Boilerplate</p>
-    <p>Angular.js, Node.js, Express.js</p>
+  <div class="header">
+  	<p class="starts-on-title">Repeats: Weekly</p>
+  	<p class="starts-on-title">{{ summary }}
+    <p class="starts-on-title">Starts On <span>{{ startsOnFormatted }}</span></p>
+    <p class="starts-on-title">Starts At <span>{{ startsAtFormatted }}</span></p>
+    <p class="starts-on-title">Ends At <span>{{ endsAtFormatted }}</span></p>
   </div>
+  <div ng-hide='startsOnFormatted'>
+    <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsOn(newDate)"></datetimepicker>
+  </div>
+  <div ng-show='startsOnFormatted && !startsAtFormatted'>
+    <datetimepicker data-datetimepicker-config="{ startView: 'hour', minView: 'minute', minuteStep: 15 } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsAt(newDate)"></datetimepicker>
+  </div>
+  <div ng-show='startsOnFormatted && startsAtFormatted'>
+    <datetimepicker data-datetimepicker-config="{ startView: 'hour', minView: 'minute', minuteStep: 15 } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setEndsAt(newDate)"></datetimepicker>
+  </div>
+  <a href="#" ng-click='onSubmit()' class="btn btn-success btn-large">Submit</a>
 </div>

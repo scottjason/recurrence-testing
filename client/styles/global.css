@@ -22,3 +22,42 @@ a {
 ul {
   list-style-type: none;
 }
+
+.table-responsive {
+  margin: auto;
+}
+p {
+  margin: 0 !important;
+}
+
+.header {
+  padding-top: 30px;
+  position: relative;
+  display: block;
+  text-align: center;
+  width: 300px;
+  height: 150px;
+  margin: auto;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+
+.pick-a-day {
+  position: relative;
+  margin: auto;
+  text-align: center;
+}
+
+.btn-success {
+  color: #fff !important;
+  background-color: black !important;
+  border-color: black !important;
+  text-align: center;
+  margin: auto;
+  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 200px;
+  margin-top: 20px;
+}

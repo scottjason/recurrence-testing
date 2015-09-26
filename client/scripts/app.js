@@ -2,5 +2,6 @@
 
 angular
   .module('BoilerPlate', [
-    'ui.router'
+    'ui.router',
+    'ui.bootstrap.datetimepicker'
   ]);

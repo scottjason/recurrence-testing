@@ -23,26 +23,36 @@ function Landing($scope, $rootScope, $state, $timeout) {
 
   $scope.setEndsAt = function(selectedDate) {
     $scope.endsAt = selectedDate;
-    $scope.endsAtFormatted = moment(selectedDate).format('h:mm:ss a');
+    $scope.endsAtFormatted = moment(selectedDate).format('h:mm a');
   };
 
   $scope.onSubmit = function() {
-  	var isValid = ($scope.startsOn && $scope.startsAt && $scope.endsAt);
-  	if (isValid) {
-  		generateRecurringEvents();
-  		console.log('Valid');
-  	} else {
-  		console.log('Invalid');
-  	}
-  }
-// new Date(year, month, day [, hour, minute, second, millisecond ])
-  function generateRecurringEvents() {
-  	var minute = (angular.copy($scope.startsAt)).getMinutes();
-  	var hour = (angular.copy($scope.startsAt)).getHours();
-  	var day = (angular.copy($scope.startsAt)).getDate();
-  	var month = (angular.copy($scope.startsAt)).getMonth();
-  	var year = (angular.copy($scope.startsAt)).getFullYear();
-  	console.log(new Date(year, month, day, hour, minute));
+    var isEndGreater = ($scope.endsAt.getTime() > $scope.startsAt.getTime());
+    var isValid = (isEndGreater && $scope.startsOn && $scope.startsAt && $scope.endsAt);
+    if (isValid) {
+      generateEventBounds();
+    } else {
+      console.log('Invalid Input');
+    }
+  };
+
+  function generateEventBounds() {
+
+    var minute = (angular.copy($scope.startsAt)).getMinutes();
+    var hour = (angular.copy($scope.startsAt)).getHours();
+    var day = (angular.copy($scope.startsAt)).getDate();
+    var month = (angular.copy($scope.startsAt)).getMonth();
+    var year = (angular.copy($scope.startsAt)).getFullYear();
+
+    $scope.activity.dates.start = new Date(year, month, day, hour, minute);
+    var duration = ($scope.endsAt.getTime() - $scope.startsAt.getTime());
+    $scope.activity.dates.end = new Date(($scope.activity.dates.start).getTime() + duration);
+
+    if (!$scope.activity.interval) {
+      $scope.activity.interval = 1;
+    }
+    console.log($scope.activity)
+
   }
 
 

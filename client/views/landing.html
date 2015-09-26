@@ -1,6 +1,7 @@
 <div ng-init='init();' class='container'>
   <div class="header">
   	<p class="starts-on-title">Repeats: Weekly</p>
+  	<span>Repeats Every<input ng-model='activity.interval' type='number' min='1' max='10' placeholder='1'> Week(s)</span>
   	<p class="starts-on-title">{{ summary }}
     <p class="starts-on-title">Starts On <span>{{ startsOnFormatted }}</span></p>
     <p class="starts-on-title">Starts At <span>{{ startsAtFormatted }}</span></p>

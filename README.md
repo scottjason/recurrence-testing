@@ -1,6 +1,15 @@
 ### stanza-recurring-events
 
-The recurring activity objects passed up via asyncEachLimit look like this:
+#### Relevant Files
+
+Client:
+https://github.com/scottjason/recurrence-testing/blob/master/client/scripts/controllers/landing.js
+
+Server:
+https://github.com/scottjason/recurrence-testing/blob/master/server/controllers/index.js
+
+
+When the frequency is "Daily", the recurring activity objects passed up via asyncEachLimit look like this:
 
 ```javascript
   activity: {
@@ -23,3 +32,4 @@ The recurring activity objects passed up via asyncEachLimit look like this:
   }
 }
 ```
+

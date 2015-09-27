@@ -3,7 +3,7 @@
 angular.module('BoilerPlate')
   .controller('Landing', Landing);
 
-function Landing($scope, $timeout) {
+function Landing($scope, $timeout, Api, UUID) {
 
   $scope.activity = {};
   $scope.activity.dates = {};
@@ -14,7 +14,6 @@ function Landing($scope, $timeout) {
   $scope.activity.recurrence.byDay = [];
 
   $scope.results = [];
-
 
   // Set incoming event start date (day, month, year)
   $scope.setStartsOn = function(dateSelected) {
@@ -45,15 +44,13 @@ function Landing($scope, $timeout) {
     if ($scope.startsOn && $scope.startsAt && $scope.endsAt && $scope.activity.recurrence.expiresOn) {
       var isEndGreater = ($scope.endsAt.getTime() > $scope.startsAt.getTime());
       var isExpGreater = ($scope.activity.recurrence.expiresOn.getTime() > $scope.endsAt.getTime());
-      console.log($scope.activity.recurrence.expiresOn)
-      console.log(isExpGreater);
       if (isEndGreater && isExpGreater) {
         generateFirstOccurence();
       } else {
-        console.log('Invalid Input');
+        renderError();
       }
     } else {
-      console.log('Invalid Input');
+      renderError();
     }
   };
 
@@ -126,10 +123,14 @@ function Landing($scope, $timeout) {
       $scope.activity.recurrence.byDay.push('SU');
     }
 
+    // if no days entered when frequency is weekly
+    if (!byDay.length) {
+      renderError();
+      return;
+    }
+
     $scope.byDay = byDay;
     $scope.activity.recurrence.byDay = $scope.activity.recurrence.byDay.join(',');
-
-    console.log($scope.activity.recurrence.byDay);
 
     generateRRule();
   }
@@ -149,17 +150,25 @@ function Landing($scope, $timeout) {
     generateActivites();
   }
 
+  // generate an array of recurring activity objects
   function generateActivites() {
 
+    var recurringId = UUID.generate();
+    var categoryId = UUID.generate();
+
     var activities = [];
-    var activityName = 'Activity Name';
-    var activityDescription = 'Activity Description';
+    var activityName = 'ng-Pandas vs bk-Buffalos';
+    var activityDescription = 'See The ng-Pandas Like You\'ve Never Seen Them Before!';
 
     _.each($scope.occurences, function(occurence, index) {
 
       var activity = {};
 
-      activity.isRecurring = (index === 0) ? true : false;
+      activity.category = categoryId;
+
+      activity.isRecurring = true;
+      activity.isFirstOccurence = (index === 0) ? true : false;
+      activity.recurringId = recurringId;
 
       activity.name = activityName;
       activity.description = activityDescription;
@@ -173,11 +182,48 @@ function Landing($scope, $timeout) {
       activity.recurrence.frequency = $scope.activity.recurrence.frequency;
       activity.recurrence.interval = $scope.activity.recurrence.interval;
       activity.recurrence.byDay = $scope.activity.recurrence.byDay;
+      activity.recurrence.expires = $scope.activity.recurrence.expiresOn;
 
       activities.push(activity);
     });
 
-    console.log('activities', activities);
+    saveActivities(activities);
+  }
+
+  function saveActivities(activities) {
+    Api.saveActivities(activities).then(function(response) {
+      console.log(response)
+    }, function(err) {
+      console.log(err);
+    })
+  }
+
+
+  // Reset form on bad submit
+  function resetForm() {
+    $timeout(function() {
+      $scope.activity = {};
+      $scope.activity.dates = {};
+      $scope.activity.recurrence = {};
+      $scope.activity.recurrence.frequency = 'WEEKLY';
+      $scope.activity.recurrence.byDay = [];
+      $scope.activity.recurrence.expiresOn = null;
+      $scope.startsOn = null;
+      $scope.startsAt = null;
+      $scope.endsAt = null;
+      $scope.startsOnFormatted = null
+      $scope.startsAtFormatted = null
+      $scope.endsAtFormatted = null
+      $scope.expiresOnFormatted = null;
+    });
+  }
+
+  function renderError() {
+    $scope.errMessage = 'Bad Input, User!';
+    $timeout(function() {
+      resetForm();
+      $scope.errMessage = '';
+    }, 1500);
   }
 
   // Date / TimePicker Method
@@ -186,5 +232,5 @@ function Landing($scope, $timeout) {
     $dates[index].selectable = false;
   };
 
-  Landing.$inject['$scope', '$timeout'];
+  Landing.$inject['$scope', '$timeout', 'Api', 'UUID'];
 }

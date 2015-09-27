@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var indexCtrl = require('../controllers/index');
+var controller = require('../controllers/index');
 
-router.get('/', indexCtrl.render);
+router.get('/', controller.render);
+router.post('/saveActivity', controller.saveActivity);
 
 module.exports = router;

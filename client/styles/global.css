@@ -72,3 +72,14 @@ p {
 .starts-on-title > span {
   color: green;
 }
+.starts-on-title.err-message {
+  position: relative;
+  top: 22px;
+  padding-bottom: 5px;
+  color: orange;
+  font-weight: 400;
+  font-size: 16px;
+  background-color: white;
+  margin-bottom: auto;
+  text-align: center;
+}

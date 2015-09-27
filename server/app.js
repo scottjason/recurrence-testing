@@ -67,14 +67,11 @@ function connectMongo() {
 
 function onMongoConnected() {
   console.log('Mongo connected to', uri);
-  startServer();
 }
 
-function startServer() {
-  app.listen(app.get('port'), function() {
-    console.log('Server listening on port ' + app.get('port') + ' in ' + app.get('env') + ' mode');
-  });
-}
+app.listen(app.get('port'), function() {
+  console.log('Server listening on port ' + app.get('port') + ' in ' + app.get('env') + ' mode');
+});
 
 module.exports = app;
 

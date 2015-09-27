@@ -1,4 +1,4 @@
-var Activity = require('../models/Activity');
+var Activity = require('../models/activity');
 var util = require('util');
 
 exports.render = function(req, res, next) {

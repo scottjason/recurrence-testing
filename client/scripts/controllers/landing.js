@@ -13,8 +13,6 @@ function Landing($scope, $timeout, Api, UUID) {
   // just starts off as an array, sent to server as properly formatted string
   $scope.activity.recurrence.byDay = [];
 
-  $scope.results = [];
-
   // Set incoming event start date (day, month, year)
   $scope.setStartsOn = function(dateSelected) {
     $scope.startsOn = dateSelected;
@@ -191,13 +189,27 @@ function Landing($scope, $timeout, Api, UUID) {
   }
 
   function saveActivities(activities) {
-    Api.saveActivities(activities).then(function(response) {
-      console.log(response)
-    }, function(err) {
-      console.log(err);
-    })
-  }
 
+    var savedActivities = [];
+    async.eachLimit(activities, 1, makeRequest, onComplete);
+
+    function makeRequest(obj, cb) {
+      Api.saveActivity(obj).then(function(response) {
+        savedActivities.push(response.data);
+        cb(null);
+      }, function(err) {
+        cb(err);
+      })
+    }
+
+    function onComplete() {
+      console.log('All Recurring Acitivities Saved');
+      $timeout(function() {
+        $scope.results = savedActivities;
+        console.log('results', $scope.results);
+      });
+    }
+  }
 
   // Reset form on bad submit
   function resetForm() {

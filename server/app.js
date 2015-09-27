@@ -4,9 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var config = require('./config');
+
+var uri = 'mongodb://bk:bk@ds053658.mongolab.com:53658/stanza-recurring-events';
 
 var app = express();
 
@@ -55,8 +58,24 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Server listening on port ' + app.get('port') + ' in ' + app.get('env') + ' mode');
-});
+function connectMongo() {
+  mongoose.connect(uri);
+  mongoose.connection.on('connected', onMongoConnected);
+  mongoose.connection.on('disconnected', connectMongo);
+  mongoose.connection.on('error', console.log);
+}
+
+function onMongoConnected() {
+  console.log('Mongo connected to', uri);
+  startServer();
+}
+
+function startServer() {
+  app.listen(app.get('port'), function() {
+    console.log('Server listening on port ' + app.get('port') + ' in ' + app.get('env') + ' mode');
+  });
+}
 
 module.exports = app;
+
+connectMongo();

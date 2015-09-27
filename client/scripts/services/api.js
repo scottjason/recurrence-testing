@@ -3,12 +3,12 @@ angular.module('BoilerPlate')
 
     'use strict'
 
-    function saveActivities(data) {
+    function saveActivity(data) {
       var request = $http({
         method: 'POST',
         url: '/saveActivity',
         data: {
-          activites: data
+          activity: data
         }
       });
       return request.then(successHandler, errorHandler);
@@ -23,7 +23,7 @@ angular.module('BoilerPlate')
     }
 
     return ({
-      saveActivities: saveActivities
+      saveActivity: saveActivity
     });
     Api.$inject('$http');
   });

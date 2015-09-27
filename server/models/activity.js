@@ -27,7 +27,7 @@ var activitySchema = new mongoose.Schema({
   recurringId: {
     type: String
   },
-  recurring: {
+  recurrence: {
     frequency: {
       type: String
     },

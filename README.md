@@ -3,13 +3,27 @@
 #### Relevant Files
 
 Client:
+
 https://github.com/scottjason/recurrence-testing/blob/master/client/scripts/controllers/landing.js
 
 Server:
+
 https://github.com/scottjason/recurrence-testing/blob/master/server/controllers/index.js
 
+Their is an array of recurring activity objects on the client. The client sends up each object (however many at a time
+defined by asyncEachLimit) to be saved as a new activity. 
 
-When the frequency is "Daily", the recurring activity objects passed up via asyncEachLimit look like this:
+The first occurence (the the first activity) will have both of these props set to true:
+
+```javascript	
+	activity.isReucurring
+	activity.isFirstOccurence
+```
+
+After save, if it is indeed the first occurrence (the first object in the array of objects being passed up by the client), it calles the exports.onFirstOccurence method. This is where I'm thinking you'd do your logic with the props
+you need. They are availble in that function body under the req.savedActivity.recurrence object.
+
+When the frequency is "Weekly", the recurring activity objects passed up via asyncEachLimit look like this:
 
 ```javascript
   activity: {

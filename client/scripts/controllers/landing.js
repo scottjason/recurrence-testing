@@ -6,10 +6,13 @@ angular.module('BoilerPlate')
 function Landing($scope, $timeout, Api, UUID) {
 
   function generateSummary() {
+
+    var numEventsCopy = ($scope.numEvents === 1) ? 'event' : 'events';
+
     if ($scope.activity.recurrence.interval === 1) {
-      $scope.summary = $scope.numEvents + ' rerucrring events created, repeating every week on ' + $scope.activity.recurrence.byDay;
+      $scope.summary = $scope.numEvents + ' rerucrring ' + numEventsCopy + ' created, repeating every week on ' + $scope.activity.recurrence.byDay;
     } else {
-      $scope.summary = $scope.numEvents + ' rerucrring events created, repeating every ' + $scope.activity.recurrence.interval + ' weeks on ' + $scope.activity.recurrence.byDay;
+      $scope.summary = $scope.numEvents + ' rerucrring ' + numEventsCopy + ' created, repeating every ' + $scope.activity.recurrence.interval + ' weeks on ' + $scope.activity.recurrence.byDay;
     }
   }
 
@@ -215,8 +218,6 @@ function Landing($scope, $timeout, Api, UUID) {
       $timeout(function() {
         $scope.results = savedActivities;
         generateSummary();
-        $scope.showReset = true;
-        console.log('results', $scope.results);
       });
     }
   }
@@ -274,7 +275,6 @@ function Landing($scope, $timeout, Api, UUID) {
     };
     var year = display.split('-')[0];
     var month = display.split('-')[1];
-    console.log(month)
     return map[month] + ', ' + year;
   }
 
@@ -284,7 +284,6 @@ function Landing($scope, $timeout, Api, UUID) {
 
   // Date / TimePicker Method
   $scope.beforeRender = function($view, $dates, $leftDate, $upDate, $rightDate) {
-    console.log($view)
     if ($view === 'day') {
       $upDate.display = mapDay($upDate.display);
     } else if ($view === 'minute') {

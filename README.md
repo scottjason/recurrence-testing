@@ -10,18 +10,21 @@ Server:
 
 https://github.com/scottjason/recurrence-testing/blob/master/server/controllers/index.js
 
-Their is an array of recurring activity objects on the client. The client sends up each object (however many at a time
-defined by asyncEachLimit) to be saved as a new activity. 
+Their is an array of recurring activity objects on the client. They have the correct start and end dates. They share a common recurringId for when we want to associate a group of recurring activites.
 
-The first occurence (the the first activity) will have both of these props set to true:
+The client sends up each object (however many at a time defined by asyncEachLimit) to be saved as a new activity. 
+
+The first occurence (the first activity) will have both of these props set to true:
 
 ```javascript	
 	activity.isReucurring
 	activity.isFirstOccurence
 ```
 
-After save, if it is indeed the first occurrence (the first object in the array of objects being passed up by the client), it calles the exports.onFirstOccurence method. This is where I'm thinking you'd do your logic with the props
+After save, if it is the first occurrence (the first object in the array of objects being passed up by the client), it calls the exports.onFirstOccurence method. This is where I'm thinking you'd do your logic with the props
 you need. They are availble in that function body under the req.savedActivity.recurrence object.
+
+If it's not the first occurence, the recurring activity is saved and passed back to the client with the required mongo id.
 
 When the frequency is "Weekly", the recurring activity objects passed up via asyncEachLimit look like this:
 

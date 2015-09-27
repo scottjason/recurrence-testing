@@ -2,8 +2,8 @@ body {
   background: black;
   overflow-x: hidden;
   font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 * {
@@ -26,6 +26,7 @@ ul {
 .table-responsive {
   margin: auto;
 }
+
 p {
   margin: 0 !important;
 }
@@ -35,11 +36,12 @@ p {
   position: relative;
   display: block;
   text-align: center;
-  width: 300px;
-  height: 150px;
+  height: 250px;
   margin: auto;
   border-bottom: 1px solid black;
   width: 100%;
+  background-color: white;
+  color: black;
 }
 
 .pick-a-day {
@@ -60,4 +62,13 @@ p {
   right: 0;
   width: 200px;
   margin-top: 20px;
+}
+
+.starts-on-title {
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.starts-on-title > span {
+  color: green;
 }

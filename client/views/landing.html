@@ -1,12 +1,15 @@
 <div ng-init='init();' class='container'>
+  <div class="reset" ng-show='results'>
+    <a href="#" ng-click='reset()' ng-class="{ 'slideUpIn' : (results) }" class="btn btn-success btn-large go-again">Go Again</a>
+  </div>
   <div class="header">
-    <div class="instructions-container">
+    <div ng-class="{ 'noBorder' : (results) }" class="instructions-container">
       <p ng-show='!startsOnFormatted' class="select">Select A Date</p>
       <p ng-show='startsOnFormatted && !startsAtFormatted' class="select">Select A Start Time</p>
       <p ng-show='startsOnFormatted && startsAtFormatted && !endsAtFormatted' class="select">Select An End Time</p>
       <p ng-show='startsOnFormatted && startsAtFormatted && endsAtFormatted && !expiresOnFormatted' class="select">Select An Expiration Date</p>
     </div>
-    <div class="container-left">
+    <div ng-class="{ 'noBorder' : (results) }" class="container-left">
       <div ng-hide='startsOnFormatted'>
         <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsOn(newDate)"></datetimepicker>
       </div>
@@ -20,7 +23,7 @@
         <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setExpiresOn(newDate)"></datetimepicker>
       </div>
       <p ng-show='errMessage.length' class="starts-on-title err-message">{{ errMessage }}</p>
-      <a ng-hide='errMessage.length' href="#" ng-click='onSubmit()' class="btn btn-success btn-large">Submit</a>
+      <a ng-hide='errMessage.length || results' href="#" ng-click='onSubmit()' class="btn btn-success btn-large">Submit</a>
     </div>
     <div class="container-right">
       <p class="starts-on-title"><span class='blue'>Repeats: </span>&nbsp;&nbsp;Weekly </p>
@@ -49,6 +52,34 @@
       <p class="starts-on-title"><span class='blue push-right'>Ends Time:</span> <span>{{ endsAtFormatted }}</span></p>
       <p class="starts-on-title"><span class='blue push-right'>Expiration Date:</span> <span>{{ expiresOnFormatted }}</span></p>
       <p class="starts-on-title"><span class='orange push-right'>Results:</span> <span>&nbsp;&nbsp;{{ summary }}</span></p>
+      <div class="results-container" ng-repeat='result in results'>
+        <ul>
+          <li class="result-main">
+            Name: {{result.name}}
+          </li>
+          <li>
+            Description: {{result.description}}
+          </li>
+          <li>
+            Starts At: {{result.dates.start}}
+          </li>
+          <li>
+            Ends At: {{result.dates.end}}
+          </li>
+          <li>
+            isRecurring: {{result.isRecurring}}
+          </li>
+          <li>
+            isFirstOccurence: {{result.isFirstOccurence}}
+          </li>
+          <li>
+            CategoryId: {{result.category}}
+          </li>
+          <li>
+            MongoId: {{result._id}}
+          </li>
+        </ul>
+        <div class="grey-line"></div>
+      </div>
     </div>
   </div>
-</div>

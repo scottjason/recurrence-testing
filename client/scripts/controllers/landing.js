@@ -214,7 +214,8 @@ function Landing($scope, $timeout, Api, UUID) {
       console.log('All Recurring Acitivities Saved');
       $timeout(function() {
         $scope.results = savedActivities;
-        generateSummary()
+        generateSummary();
+        $scope.showReset = true;
         console.log('results', $scope.results);
       });
     }
@@ -236,6 +237,15 @@ function Landing($scope, $timeout, Api, UUID) {
       $scope.startsAtFormatted = null
       $scope.endsAtFormatted = null
       $scope.expiresOnFormatted = null;
+      $scope.results = false;
+      $scope.summary = null;
+      $('#monday').prop('checked', false);
+      $('#tuesday').prop('checked', false);
+      $('#wednesday').prop('checked', false);
+      $('#thursday').prop('checked', false);
+      $('#friday').prop('checked', false);
+      $('#saturday').prop('checked', false);
+      $('#sunday').prop('checked', false);
     });
   }
 
@@ -267,6 +277,10 @@ function Landing($scope, $timeout, Api, UUID) {
     console.log(month)
     return map[month] + ', ' + year;
   }
+
+  $scope.reset = function() {
+    resetForm();
+  };
 
   // Date / TimePicker Method
   $scope.beforeRender = function($view, $dates, $leftDate, $upDate, $rightDate) {

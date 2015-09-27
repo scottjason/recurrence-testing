@@ -5,6 +5,14 @@ angular.module('BoilerPlate')
 
 function Landing($scope, $timeout, Api, UUID) {
 
+  function generateSummary() {
+    if ($scope.activity.recurrence.interval === 1) {
+      $scope.summary = $scope.numEvents + ' rerucrring events created, repeating every week on ' + $scope.activity.recurrence.byDay;
+    } else {
+      $scope.summary = $scope.numEvents + ' rerucrring events created, repeating every ' + $scope.activity.recurrence.interval + ' weeks on ' + $scope.activity.recurrence.byDay;
+    }
+  }
+
   $scope.activity = {};
   $scope.activity.dates = {};
   $scope.activity.recurrence = {};
@@ -206,6 +214,7 @@ function Landing($scope, $timeout, Api, UUID) {
       console.log('All Recurring Acitivities Saved');
       $timeout(function() {
         $scope.results = savedActivities;
+        generateSummary()
         console.log('results', $scope.results);
       });
     }
@@ -238,10 +247,35 @@ function Landing($scope, $timeout, Api, UUID) {
     }, 1500);
   }
 
+  function mapDay(display) {
+    var map = {
+      'Jan': 'January',
+      'Feb': 'February',
+      'Mar': 'March',
+      'Apr': 'April',
+      'May': 'May',
+      'Jun': 'June',
+      'Jul': 'July',
+      'Aug': 'August',
+      'Sep': 'September',
+      'Oct': 'October',
+      'Nov': 'November',
+      'Dec': 'December'
+    };
+    var year = display.split('-')[0];
+    var month = display.split('-')[1];
+    console.log(month)
+    return map[month] + ', ' + year;
+  }
+
   // Date / TimePicker Method
   $scope.beforeRender = function($view, $dates, $leftDate, $upDate, $rightDate) {
-    var index = Math.floor(Math.random() * $dates.length);
-    $dates[index].selectable = false;
+    console.log($view)
+    if ($view === 'day') {
+      $upDate.display = mapDay($upDate.display);
+    } else if ($view === 'minute') {
+      $upDate.selectable = false;
+    }
   };
 
   Landing.$inject['$scope', '$timeout', 'Api', 'UUID'];

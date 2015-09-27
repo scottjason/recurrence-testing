@@ -1,7 +1,7 @@
 body {
-  background: black;
+  background: black !important;
   overflow-x: hidden;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-size: 12px;
   font-weight: 400;
 }
@@ -19,8 +19,38 @@ a {
   text-decoration: none;
 }
 
+.select,
+.glyphicon p {
+  text-align: center !important;
+  position: relative;
+  top: 40px !important;
+  font-size: 24px;
+  color: #337ab7;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: .5s;
+  transition: 0.5s;
+}
+
+.select {
+  color: #2BBE83 !important;
+}
+
+
 ul {
   list-style-type: none;
+}
+.instructions-container {
+  position: absolute;
+  width: 350px;
+  height: 100px;
+  left: 0;
+  z-index: 3;
+  background-color: black;
+  border: 1px solid grey;
+  border-bottom: transparent;
+  top: 30px;
+  color: #2BBE83 !important;
 }
 
 .table-responsive {
@@ -31,17 +61,45 @@ p {
   margin: 0 !important;
 }
 
+.checkbox-container {
+  display: inline-block;
+}
+
 .header {
   padding-top: 30px;
   position: relative;
   display: block;
-  text-align: center;
+  text-align: left;
   height: 250px;
-  margin: auto;
-  border-bottom: 1px solid black;
   width: 100%;
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
+}
+
+.blue {
+  color: #337ab7 !important
+}
+
+.blue.every,
+.blue.push-right {
+  padding-right: 5px;
+}
+
+.orange.push-right {
+  color: orange !important;
+}
+
+.weeks {
+  margin-left: 5px;
+  color: white !important;
+}
+
+td.day:hover,
+th.switch:hover,
+th.right:hover,
+th.left:hover {
+  background-color: transparent !important;
+  color: #337ab7;
 }
 
 .pick-a-day {
@@ -50,28 +108,93 @@ p {
   text-align: center;
 }
 
+.container-left {
+  position: absolute;
+  width: 350px;
+  height: 300px;
+  background-color: black;
+  top: 130px;
+  border: 1px solid grey;
+  z-index: 1;
+  border-top: transparent;
+  background-color: black;
+  color: white;
+}
+
+.container-right {
+  position: absolute;
+  right: 0;
+  left: 370px;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px !important;
+  margin-left: 1px !important;
+  margin-right: 5px !important;
+  font-weight: normal !important;
+}
+
+.switch {
+  white-space: nowrap !important;
+}
+
+input#every-week {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  height: 16px;
+  top: 1px;
+  position: relative;
+  background-color: black;
+  border: none;
+  border: 1px solid grey;
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  width: 50px;
+}
+
 .btn-success {
   color: #fff !important;
   background-color: black !important;
-  border-color: black !important;
+  border-color: #337ab7 !important;
   text-align: center;
   margin: auto;
   position: relative;
   position: absolute;
   left: 0;
+  border-radius: 15px !important;
   right: 0;
   width: 200px;
   margin-top: 20px;
 }
 
-.starts-on-title {
+span.hour:hover,
+span.hour:active,
+span.minute.active,
+span.minute:hover {
+  background-color: transparent !important;
+}
+
+.datetimepicker table tr td span.active,
+.datetimepicker table tr td span.active:hover,
+.datetimepicker table tr td span.active.disabled,
+.datetimepicker table tr td span.active.disabled:hover .starts-on-title {
   position: relative;
   padding-bottom: 5px;
+  background-color: transparent !important;
 }
 
 .starts-on-title > span {
-  color: green;
+  color: white;
 }
+
+.starts-on-title.repeats-on {
+  display: inline-block;
+}
+
 .starts-on-title.err-message {
   position: relative;
   top: 22px;
@@ -82,4 +205,8 @@ p {
   background-color: white;
   margin-bottom: auto;
   text-align: center;
+}
+
+.starts-on-title {
+  padding-bottom: 7px;
 }

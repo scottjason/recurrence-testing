@@ -1,46 +1,54 @@
 <div ng-init='init();' class='container'>
   <div class="header">
-    <p class="starts-on-title">Repeats: Weekly </p>
-    <p class="starts-on-title">Repeats Every
-      <input ng-model='activity.recurrence.interval' type='number' min='1' max='10' placeholder='1'> Week(s)</p>
-    <p class="starts-on-title">Repeats On: {{ repeatsOn }}</p>
-    <div>
-      <input id="monday" type="checkbox" />
-      <label for="monday">Monday</label>
-      <input id="tuesday" type="checkbox" />
-      <label for="tuesday">Tuesday</label>
-      <input id="wednesday" type="checkbox" />
-      <label for="wednesday">Wednesday</label>
-      <input id="thursday" type="checkbox" />
-      <label for="thursday">Thursday</label>
-      <input id="friday" type="checkbox" />
-      <label for="friday">Friday</label>
-      <input id="saturday" type="checkbox" />
-      <label for="saturday">Saturday</label>
-      <input id="sunday" type="checkbox" />
-      <label for="sunday">Sunday</label>
+    <div class="instructions-container">
+      <p ng-show='!startsOnFormatted' class="select">Select A Date</p>
+      <p ng-show='startsOnFormatted && !startsAtFormatted' class="select">Select A Start Time</p>
+      <p ng-show='startsOnFormatted && startsAtFormatted && !endsAtFormatted' class="select">Select An End Time</p>
+      <p ng-show='startsOnFormatted && startsAtFormatted && endsAtFormatted && !expiresOnFormatted' class="select">Select An Expiration Date</p>
     </div>
-      <p class="starts-on-title">Starts On: <span>{{ startsOnFormatted }}</span></p>
-      <p class="starts-on-title">Starts At: <span>{{ startsAtFormatted }}</span></p>
-      <p class="starts-on-title">Ends At: <span>{{ endsAtFormatted }}</span></p>
-      <p class="starts-on-title">Expires On: <span>{{ expiresOnFormatted }}</span></p>
-      <p ng-hide='errMessage.length' class="starts-on-title">{{ summary }}</p>
-
-      <div class="line-break"></div>
-  </div>
-  <div ng-hide='startsOnFormatted'>
-    <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsOn(newDate)"></datetimepicker>
-  </div>
-  <div ng-show='startsOnFormatted && !startsAtFormatted'>
-    <datetimepicker data-datetimepicker-config="{ startView: 'minute', minView: 'minute', minuteStep: 15 } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsAt(newDate)"></datetimepicker>
-  </div>
-  <div ng-show='startsOnFormatted && startsAtFormatted && !endsAtFormatted'>
-    <datetimepicker data-datetimepicker-config="{ startView: 'minute', minView: 'minute', minuteStep: 15 } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setEndsAt(newDate)"></datetimepicker>
-  </div>
-    <div ng-show='startsOnFormatted && startsAtFormatted && endsAtFormatted && !expiresOnFormatted'>
-    <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } "  data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setExpiresOn(newDate)"></datetimepicker>
-  </div>
+    <div class="container-left">
+      <div ng-hide='startsOnFormatted'>
+        <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsOn(newDate)"></datetimepicker>
+      </div>
+      <div ng-show='startsOnFormatted && !startsAtFormatted'>
+        <datetimepicker data-datetimepicker-config="{ startView: 'hour', minView: 'minute', minuteStep: 15 } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setStartsAt(newDate)"></datetimepicker>
+      </div>
+      <div ng-show='startsOnFormatted && startsAtFormatted && !endsAtFormatted'>
+        <datetimepicker data-datetimepicker-config="{ startView: 'hour', minView: 'minute', minuteStep: 15 } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setEndsAt(newDate)"></datetimepicker>
+      </div>
+      <div ng-show='startsOnFormatted && startsAtFormatted && endsAtFormatted && !expiresOnFormatted'>
+        <datetimepicker data-datetimepicker-config="{ startView: 'day', minView: 'day' } " data-ng-model="data.date" data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="setExpiresOn(newDate)"></datetimepicker>
+      </div>
       <p ng-show='errMessage.length' class="starts-on-title err-message">{{ errMessage }}</p>
-
-  <a ng-hide='errMessage.length' href="#" ng-click='onSubmit()' class="btn btn-success btn-large">Submit</a>
+      <a ng-hide='errMessage.length' href="#" ng-click='onSubmit()' class="btn btn-success btn-large">Submit</a>
+    </div>
+    <div class="container-right">
+      <p class="starts-on-title"><span class='blue'>Repeats: </span>&nbsp;&nbsp;Weekly </p>
+      <div class="line-break"></div>
+      <p class="starts-on-title"><span class='blue every'>Repeats Every</span>
+        <input id='every-week' ng-model='activity.recurrence.interval' type='number' min='1' max='10' placeholder='1'> <span class='weeks'>Week(s)</span></p>
+      <p class="starts-on-title repeats-on"><span class='blue push-right'>Repeats On:</span> {{ repeatsOn }}</p>
+      <div class="checkbox-container">
+        <input id="monday" type="checkbox" />
+        <label for="monday">Monday</label>
+        <input id="tuesday" type="checkbox" />
+        <label for="tuesday">Tuesday</label>
+        <input id="wednesday" type="checkbox" />
+        <label for="wednesday">Wednesday</label>
+        <input id="thursday" type="checkbox" />
+        <label for="thursday">Thursday</label>
+        <input id="friday" type="checkbox" />
+        <label for="friday">Friday</label>
+        <input id="saturday" type="checkbox" />
+        <label for="saturday">Saturday</label>
+        <input id="sunday" type="checkbox" />
+        <label for="sunday">Sunday</label>
+      </div>
+      <p class="starts-on-title"><span class='blue push-right'>Starts Date:</span><span>{{ startsOnFormatted }}</span></p>
+      <p class="starts-on-title"><span class='blue push-right'>Starts Time:</span> <span>{{ startsAtFormatted }}</span></p>
+      <p class="starts-on-title"><span class='blue push-right'>Ends Time:</span> <span>{{ endsAtFormatted }}</span></p>
+      <p class="starts-on-title"><span class='blue push-right'>Expiration Date:</span> <span>{{ expiresOnFormatted }}</span></p>
+      <p class="starts-on-title"><span class='orange push-right'>Results:</span> <span>&nbsp;&nbsp;{{ summary }}</span></p>
+    </div>
+  </div>
 </div>

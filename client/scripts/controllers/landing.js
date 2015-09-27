@@ -3,13 +3,13 @@
 angular.module('BoilerPlate')
   .controller('Landing', Landing);
 
-function Landing($scope, $rootScope, $state, $timeout) {
+function Landing($scope, $timeout) {
 
   $scope.activity = {};
   $scope.activity.dates = {};
   $scope.activity.recurrence = {};
   $scope.activity.recurrence.frequency = 'WEEKLY';
-  
+
   // just starts off as an array, sent to server as properly formatted string
   $scope.activity.recurrence.byDay = [];
 
@@ -180,42 +180,11 @@ function Landing($scope, $rootScope, $state, $timeout) {
     console.log('activities', activities);
   }
 
-
-
-
-
-
-
-
-
-
-
-
+  // Date / TimePicker Method
   $scope.beforeRender = function($view, $dates, $leftDate, $upDate, $rightDate) {
     var index = Math.floor(Math.random() * $dates.length);
     $dates[index].selectable = false;
-  }
+  };
 
-
-
-  // Create a rule:
-  var rule = new RRule({
-    freq: RRule.WEEKLY,
-    interval: 5,
-    byweekday: [RRule.MO, RRule.FR],
-    dtstart: new Date(2012, 1, 1, 10, 30),
-    until: new Date(2012, 12, 31)
-  });
-
-
-
-
-
-
-
-
-
-  $scope.init = function() {};
-
-  Landing.$inject['$scope', '$rootScope', '$state', '$timeout'];
+  Landing.$inject['$scope', '$timeout'];
 }

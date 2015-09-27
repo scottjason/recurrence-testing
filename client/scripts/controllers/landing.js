@@ -134,8 +134,7 @@ function Landing($scope, $timeout, Api, UUID) {
 
     // if no days entered when frequency is weekly
     if (!byDay.length) {
-      renderError();
-      return;
+      byDay = [0, 1, 2, 3, 4, 5, 6];
     }
 
     $scope.byDay = byDay;
